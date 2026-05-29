@@ -81,5 +81,13 @@ def clientes_martelinho():
 
 
 
+freezer = Freezer(app)
 
-app.run(debug=True)
+if __name__ == '__main__':
+    # Se uma variável de ambiente da Vercel existir, ou se você passar o argumento 'freeze'
+    import sys
+    if 'VERCEL' in os.environ or (len(sys.argv) > 1 and sys.argv[1] == 'freeze'):
+        freezer.freeze()
+    else:
+        app.run(debug=True, port=5000)
+
