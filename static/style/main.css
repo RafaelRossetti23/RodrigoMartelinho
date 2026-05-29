@@ -719,6 +719,7 @@ body > section {
 }
 
 #title h1 {
+    padding-top: 20px;
     margin: 0;
     font-size: 36px;
     font-weight: 300;
