@@ -1,4 +1,6 @@
+import os
 from flask import Flask, render_template
+from flask_frozen import Freezer  # Adicione isso aqui
 
 app = Flask(__name__)
 
@@ -16,10 +18,10 @@ p_antes_depois_revitalizacao = 'antes-e-depois/revitalizacao-de-carros.html'
 p_antes_depois_higienizacao = 'antes-e-depois/higienizacao-de-carros.html'
 p_antes_depois_hidratacao = 'antes-e-depois/hidratacao-de-carros.html'
 
-
-@app.route('/<url_client>')
-def error404(url_client):
-    return render_template("errorpage.html")
+# COMENTE OU REMOVA ESTA ROTA ABAIXO PARA NÃO DAR ERRO NO BUILD:
+# @app.route('/<url_client>')
+# def error404(url_client):
+#     return render_template("errorpage.html")
 
 @app.route('/')
 @app.route('/index.html')
@@ -79,14 +81,14 @@ def dicas_martelinho():
 def clientes_martelinho():
     return render_template(p_nossos_clientes)
 
-
-
+# ADICIONE ESSE BLOCO NO FINAL DO SEU ARQUIVO:
 freezer = Freezer(app)
 
 if __name__ == '__main__':
-    # Se uma variável de ambiente da Vercel existir, ou se você passar o argumento 'freeze'
+    # Se você rodar "python app.py freeze", ele gera o site estático.
+    # Se rodar só "python app.py", ele abre o servidor local de testes.
     import sys
-    if 'VERCEL' in os.environ or (len(sys.argv) > 1 and sys.argv[1] == 'freeze'):
+    if len(sys.argv) > 1 and sys.argv[1] == 'freeze':
         freezer.freeze()
     else:
         app.run(debug=True, port=5000)
